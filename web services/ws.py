@@ -70,7 +70,7 @@ def get_personajes():
     if conn:
         try:
             cursor = conn.cursor(as_dict=True)
-            cursor.execute("SELECT id, name, email FROM personajes")
+            cursor.execute("SELECT id, name, email, whatsapp FROM personajes")
             personajes = cursor.fetchall()
             return jsonify(personajes), 200
         except Exception as e:
@@ -90,7 +90,7 @@ def get_personaje(id):
         try:
             cursor = conn.cursor(as_dict=True)
             cursor.execute(
-                "SELECT id, name, email FROM personajes WHERE id = %d", (id,))
+                "SELECT id, name, email, whatsapp FROM personajes WHERE id = %d", (id,))
             personaje = cursor.fetchone()
             if personaje:
                 return jsonify(personaje), 200
@@ -112,6 +112,7 @@ def create_personaje():
     id = data.get('id')
     name = data.get('name')
     email = data.get('email')
+    whatsapp = data.get('whatsapp')
 
     if not id or not name or not email:
         return jsonify({'error': 'Se requiere id, nombre y correo electrónico'}), 400
@@ -140,6 +141,7 @@ def update_personaje(id):
     data = request.get_json()
     name = data.get('name')
     email = data.get('email')
+    whatsapp = data.get('whatsapp')
 
     if not name or not email:
         return jsonify({'error': 'Se requiere nombre y correo electrónico'}), 400
